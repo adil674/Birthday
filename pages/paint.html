@@ -1,0 +1,22 @@
+<div class="modal-overlay" id="paintOverlay" role="dialog" aria-modal="true" aria-label="Paint something">
+    <div class="gift-modal paint-modal">
+      <button class="close-btn" data-close="paintOverlay" aria-label="Close painting">×</button>
+      <h2>Paint something for me 🎨</h2>
+      <p class="sub">pick a color and go wild</p>
+  
+      <div class="paint-toolbar">
+        <button class="paint-color" style="background:#FF6B9D" data-color="#FF6B9D" aria-label="Pink"></button>
+        <button class="paint-color" style="background:#F4B942" data-color="#F4B942" aria-label="Yellow"></button>
+        <button class="paint-color" style="background:#7FD8C4" data-color="#7FD8C4" aria-label="Teal"></button>
+        <button class="paint-color" style="background:#8C6BFF" data-color="#8C6BFF" aria-label="Purple"></button>
+        <button class="paint-color" style="background:#FFF6E9" data-color="#FFF6E9" aria-label="Cream"></button>
+        <button class="paint-color active" style="background:#2D1B4E" data-color="#2D1B4E" aria-label="Dark"></button>
+  
+        <input type="range" id="brushSize" min="2" max="30" value="6" aria-label="Brush size">
+  
+        <button class="paint-clear-btn" id="clearCanvasBtn">Clear</button>
+      </div>
+  
+      <canvas id="paintCanvas" width="400" height="320"></canvas>
+    </div>
+  </div>

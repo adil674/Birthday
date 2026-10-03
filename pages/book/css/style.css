@@ -1,0 +1,446 @@
+:root{
+  --leather: #3c1e2a;
+  --leather-dark: #26121a;
+  --leather-light: #55293a;
+  --gold: #cda65d;
+  --gold-light: #ecd9ab;
+  --paper: #f7efdc;
+  --paper-shadow: #e5d6b4;
+  --ink: #2c2117;
+  --ink-soft: #7a6c58;
+  --rose: #a8455f;
+
+  --book-w: min(84vw, 860px);
+  --book-h: calc(var(--book-w) * 0.66);
+  --leaf-w: calc(var(--book-w) / 2);
+}
+
+*{ box-sizing: border-box; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+html, body{
+  height: 100%;
+  margin: 0;
+  background: #0c0a0d;
+  font-family: 'EB Garamond', serif;
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+.room{
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6vh 4vw;
+  position: relative;
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 38%, rgba(255, 224, 178, 0.10), transparent 60%),
+    radial-gradient(ellipse 120% 90% at 50% 100%, #1a1013 0%, #0c0a0d 60%),
+    linear-gradient(180deg, #0e0b0e 0%, #08070a 100%);
+}
+
+.dust{
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(236, 217, 171, 0.06) 1px, transparent 1px);
+  background-size: 3px 3px;
+  opacity: 0.5;
+}
+
+.stage{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+  perspective: 2600px;
+}
+
+/* Ribbon bookmark hanging from the spine */
+.ribbon{
+  position: absolute;
+  top: -34px;
+  left: 50%;
+  width: 22px;
+  height: 90px;
+  background: linear-gradient(180deg, var(--rose), #7c2f42);
+  clip-path: polygon(0 0, 100% 0, 100% 82%, 50% 100%, 0 82%);
+  transform: translateX(-50%) rotate(-1.5deg);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+  z-index: 50;
+}
+
+.book{
+  position: relative;
+  width: var(--book-w);
+  height: var(--book-h);
+  transform-style: preserve-3d;
+}
+
+/* ---------- Cover & back cover shell ---------- */
+
+.back-cover{
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 140% at 15% 10%, var(--leather-light), var(--leather) 55%, var(--leather-dark) 100%);
+  border-radius: 6px 10px 10px 6px;
+  box-shadow:
+    0 30px 60px -20px rgba(0,0,0,0.7),
+    0 10px 25px rgba(0,0,0,0.5),
+    inset 0 0 0 2px rgba(205,166,93,0.25);
+}
+
+.page-edges{
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  right: 2px;
+  width: 10px;
+  background:
+    repeating-linear-gradient(180deg, var(--paper-shadow) 0px, var(--paper) 1.5px, var(--paper-shadow) 3px);
+  border-radius: 0 4px 4px 0;
+  box-shadow: inset -2px 0 3px rgba(0,0,0,0.15);
+}
+
+/* ---------- Leaves (shared by cover + pages) ---------- */
+
+.stack{
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.leaf{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--leaf-w);
+  height: 100%;
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  transition: transform 1.05s cubic-bezier(.45,.05,.15,1);
+  will-change: transform;
+}
+
+.leaf.flipped{
+  transform: rotateY(-180deg);
+}
+
+.leaf.no-anim{
+  transition: none;
+}
+
+.face{
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.face.back{
+  transform: rotateY(180deg);
+}
+
+/* subtle curl shadow that travels with the flip */
+.leaf::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(0,0,0,0.14), transparent 18%);
+  opacity: 0;
+  transition: opacity 1.05s ease;
+}
+.leaf.flipped::after{ opacity: 1; background: linear-gradient(270deg, rgba(0,0,0,0.16), transparent 22%); }
+
+/* ---------- Cover faces ---------- */
+
+.cover-leaf{
+  z-index: 100;
+}
+
+.cover-front{
+  background:
+    radial-gradient(120% 140% at 85% 15%, var(--leather-light), var(--leather) 55%, var(--leather-dark) 100%);
+  border-radius: 6px 10px 10px 6px;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 2px rgba(205,166,93,0.28);
+  cursor: pointer;
+}
+
+.cover-frame{
+  width: 82%;
+  height: 84%;
+  border: 1.5px solid var(--gold);
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 5px rgba(12,8,10,0.25), inset 0 0 30px rgba(0,0,0,0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6% 8%;
+  position: relative;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(205,166,93,0.03) 0px, rgba(205,166,93,0.03) 2px, transparent 2px, transparent 10px);
+}
+
+.cover-eyebrow{
+  margin: 0 0 10px;
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: clamp(10px, 1.3vw, 13px);
+  color: var(--gold-light);
+  opacity: 0.85;
+}
+
+.cover-title{
+  margin: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: clamp(24px, 4.4vw, 42px);
+  line-height: 1.12;
+  color: var(--gold-light);
+  text-shadow: 0 1px 0 rgba(0,0,0,0.4), 0 0 24px rgba(205,166,93,0.15);
+}
+
+.cover-mark{
+  margin-top: 18px;
+  font-size: clamp(16px, 2vw, 22px);
+  color: var(--gold);
+  opacity: 0.8;
+}
+
+.cover-inside{
+  background: linear-gradient(135deg, var(--paper-shadow), var(--paper));
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12%;
+  border-radius: 4px 0 0 4px;
+}
+
+.inside-text{
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(14px, 2vw, 19px);
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin: 0 0 14px;
+}
+
+.inside-hint{
+  font-size: clamp(11px, 1.3vw, 13px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rose);
+  opacity: 0.7;
+  margin: 0;
+}
+
+/* ---------- Page (diary leaf) faces ---------- */
+
+.page-face{
+  background: linear-gradient(120deg, var(--paper) 0%, #fbf6e8 60%, var(--paper) 100%);
+  padding: clamp(20px, 4vw, 44px) clamp(18px, 3.6vw, 38px);
+}
+
+.page-face.back{
+  border-radius: 4px 0 0 4px;
+}
+.page-face.front{
+  border-radius: 0 4px 4px 0;
+}
+
+.page-face::before{
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 26px;
+  background: linear-gradient(90deg, rgba(0,0,0,0.10), transparent);
+}
+.page-face.front::before{ left: 0; }
+.page-face.back::before{ right: 0; transform: scaleX(-1); }
+
+.page-title{
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(15px, 1.9vw, 21px);
+  color: var(--ink);
+  letter-spacing: 0.01em;
+  outline: none;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(122,108,88,0.28);
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.page-title:empty::before{
+  content: attr(data-placeholder);
+  color: var(--ink-soft);
+  opacity: 0.45;
+  font-style: italic;
+}
+
+.page-title:focus-visible{
+  box-shadow: inset 0 0 0 2px rgba(168,69,95,0.25);
+  border-radius: 2px;
+}
+
+.page-number{
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-soft);
+  opacity: 0.65;
+  margin: 0 0 10px;
+}
+.page-face.front .page-number{ text-align: right; }
+.page-face.back .page-number{ text-align: left; }
+
+.page-content{
+  flex: 1;
+  min-height: 0;
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(14px, 1.7vw, 18px);
+  line-height: 1.85;
+  color: var(--ink);
+  outline: none;
+  overflow: hidden;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background-image: repeating-linear-gradient(
+    180deg, transparent 0, transparent calc(1.85em - 1px), rgba(122,108,88,0.16) calc(1.85em - 1px), rgba(122,108,88,0.16) calc(1.85em)
+  );
+  padding-right: 4px;
+}
+
+.page-content:empty::before{
+  content: attr(data-placeholder);
+  color: var(--ink-soft);
+  opacity: 0.55;
+  font-style: italic;
+}
+
+.page-content:focus{
+  outline: none;
+}
+
+.page-content:focus-visible{
+  box-shadow: inset 0 0 0 2px rgba(168,69,95,0.35);
+  border-radius: 2px;
+}
+
+/* ---------- Controls ---------- */
+
+.tap-hint{
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 16px;
+  letter-spacing: 0.03em;
+  color: var(--gold-light);
+  background: none;
+  border: 1px solid rgba(205,166,93,0.4);
+  padding: 9px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.tap-hint:hover{ background: rgba(205,166,93,0.1); transform: translateY(-1px); }
+.tap-hint:focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; }
+
+.controls{
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.nav-btn{
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(205,166,93,0.4);
+  background: rgba(60,30,42,0.4);
+  color: var(--gold-light);
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.nav-btn:hover{ background: rgba(205,166,93,0.18); transform: scale(1.06); }
+.nav-btn:disabled{ opacity: 0.25; cursor: default; transform: none; }
+.nav-btn:focus-visible{ outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.progress{
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--gold-light);
+  opacity: 0.85;
+  min-width: 110px;
+  text-align: center;
+}
+
+.add-btn{
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  color: var(--ink-soft);
+  background: var(--paper);
+  border: none;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  margin-left: 6px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  transition: transform 0.15s ease;
+}
+.add-btn:hover{ transform: translateY(-1px); }
+.add-btn:focus-visible{ outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.save-toast{
+  position: fixed;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%) translateY(12px);
+  background: var(--leather);
+  color: var(--gold-light);
+  border: 1px solid rgba(205,166,93,0.4);
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.save-toast.show{
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 560px){
+  :root{
+    --book-w: 92vw;
+  }
+  .cover-title{ font-size: 26px; }
+  .ribbon{ width: 16px; height: 60px; top: -22px; }
+  .controls{ gap: 10px; }
+  .progress{ min-width: 70px; font-size: 12px; }
+}

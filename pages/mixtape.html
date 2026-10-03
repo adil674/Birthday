@@ -1,0 +1,62 @@
+<!-- =========================================================
+     mixtape.html  →  save as  pages/mixtape.html
+     This is only a fragment (no <html>/<body>); js/mixtape.js loads it.
+     ========================================================= -->
+<div class="mt-card">
+
+  <!-- TOP: VIDEO -->
+  <div class="mt-video">
+    <!-- When your video is ready: delete the placeholder div below and
+         uncomment this line (keep id="giftVideo"):
+    <video id="giftVideo" controls playsinline src="video.mp4"></video>
+    -->
+    <div class="mt-video-ph">
+      🎬
+      <b>Your video goes here</b>
+      Swap this block for a &lt;video id="giftVideo"&gt; tag.
+    </div>
+  </div>
+
+  <!-- BOTTOM: MIXTAPE -->
+  <div class="mt-tape-half">
+    <div class="mt-head">
+      <span class="mt-title">Side A · Our Mixtape</span>
+      <button class="mt-btn" id="mtBtn" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#ffc46b" stroke-width="1.8">
+          <rect x="2" y="5" width="20" height="14" rx="3"/><circle cx="8.5" cy="12" r="2.2"/>
+          <circle cx="15.5" cy="12" r="2.2"/><path d="M6 17h12"/>
+        </svg>
+        <span id="mtBtnText">Open mixtape</span>
+      </button>
+    </div>
+
+    <div class="mt-list" id="mtList"></div>
+
+    <div class="mt-deck" id="mtDeck">
+      <div class="mt-cassette" id="mtCassette">
+        <i class="mt-screw" style="left:8px;top:8px"></i><i class="mt-screw" style="right:8px;top:8px"></i>
+        <i class="mt-screw" style="left:8px;bottom:8px"></i><i class="mt-screw" style="right:8px;bottom:8px"></i>
+        <div class="mt-label"><div class="mt-l1" id="mtLblTitle">—</div><div class="mt-l2" id="mtLblArtist">—</div></div>
+        <div class="mt-tape-line"></div>
+        <div class="mt-window"><div class="mt-reel r1"></div><div class="mt-reel r2"></div></div>
+        <div class="mt-bottom"><i></i><i></i><i></i></div>
+      </div>
+      <span class="mt-deck-label">Stereo Deck</span>
+      <span class="mt-led"></span>
+    </div>
+
+    <div class="mt-controls" id="mtControls">
+      <button class="mt-cbtn" id="mtPlay" aria-label="Play / pause">
+        <svg id="mtIcoPlay" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="mtIcoPause" viewBox="0 0 24 24" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+      </button>
+      <div class="mt-bar" id="mtBar"><span id="mtBarFill"></span></div>
+      <span class="mt-time" id="mtTime">0:00</span>
+      <button class="mt-cbtn ghost" id="mtEject" aria-label="Eject">
+        <svg viewBox="0 0 24 24"><path d="M5 17h14v2H5zm7-12 7 9H5z"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<audio id="mtAudio" preload="none"></audio>

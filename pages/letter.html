@@ -1,0 +1,28 @@
+<!-- ============ LETTER MODAL ============ -->
+  <div class="modal-overlay" id="letterOverlay" role="dialog" aria-modal="true" aria-label="Letter">
+    <div class="letter-modal">
+      <button class="close-btn" data-close="letterOverlay" aria-label="Close letter">×</button>
+      <div class="stamp">🎂</div>
+
+      <!-- Delivered envelope + voice note player (bird drops this in) -->
+      <div class="mail-delivery" id="mailDelivery">
+        <div class="envelope-landed" id="envelopeLanded" role="button" tabindex="0" aria-label="Open voice note">
+          <div class="envelope-flap"></div>
+          <div class="envelope-face"><span class="envelope-heart">💌</span></div>
+          <span class="envelope-hint">tap me</span>
+        </div>
+
+        <div class="vn-player" id="vnPlayer">
+          <button class="vn-play-btn" id="vnPlayBtn" aria-label="Play voice note">▶</button>
+          <div class="vn-track"><div class="vn-progress" id="vnProgress"></div></div>
+          <span class="vn-time" id="vnTime">0:00</span>
+          <audio id="vnAudio" preload="none" src="audio/voice-note.mp3"></audio>
+        </div>
+      </div>
+
+      <h2>Dear you,</h2>
+      <p>This is a placeholder letter — Adil will drop the real one in here soon. For now, just know a proper, heartfelt birthday message is on its way to this exact spot.</p>
+      <p>Consider this a placeholder hug until the real words arrive.</p>
+      <p class="sign-off">— Adil</p>
+    </div>
+  </div>
