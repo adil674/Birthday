@@ -113,5 +113,9 @@
 <script src="js/bangles.js"></script>
 <script src="js/rose.js"></script>
 <script src="js/mixtape.js"></script>
+<script>
+  // download the 3D models while she's reading the page, so they're ready when opened
+  ['bangles.glb', 'roses.glb'].forEach(f => fetch(f).catch(() => {}));
+</script>
 </body>
 </html>
